@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eum.project.service.impl.BoardMapper">
+
+	<select id="testDB" resultType="eum.project.service.BoardVO">
+		
+		SELECT *
+		FROM board_db
+	
+	</select>
+
+</mapper>
