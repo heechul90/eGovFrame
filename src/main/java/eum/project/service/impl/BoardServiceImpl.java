@@ -31,6 +31,22 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	@Resource
 	private BoardMapper boardMapper;
 	
+	
+	/**
+	 * 글 등록
+	 */
+	public String insertBoard(BoardVO vo) throws Exception {
+		LOGGER.debug(vo.toString());
+		
+		String id = egovIdGnrService.getNextStringId();
+		vo.setId(id);
+		LOGGER.debug(vo.toString());
+		
+		boardDAO.insertBoard(vo);
+		return id;
+	}
+	
+	
 	/**
 	 * 글 조회
 	 */
@@ -47,7 +63,7 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	 */
 	@Override
 	public List<?> selectBoardList(BoardDefaultVO searchVO) throws Exception {
-		return boardDAO.selectBoardList(searchVO);
+		return boardMapper.selectBoardList(searchVO);
 	}
 	
 	/**
@@ -55,7 +71,7 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	 */
 	@Override
 	public int selectBoardListTotCnt(BoardDefaultVO searchVO) {
-		return boardDAO.selectBoardListTotCnt(searchVO);
+		return boardMapper.selectBoardListTotCnt(searchVO);
 	}
 	
 	/**

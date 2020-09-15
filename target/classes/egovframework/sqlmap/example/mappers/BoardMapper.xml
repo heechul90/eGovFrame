@@ -9,19 +9,37 @@
 		<result property="useYn" column="use_yn"/>
 		<result property="regUser" column="reg_user"/>
 	</resultMap>
+	
+	<insert id="insertBoard" parameterType="BoardVO">
+	
+		insert into board_db
+			( id, 
+			    name, 
+			    description, 
+			    use_yn, 
+			    reg_user
+			)
+			value ( #{id},
+				#{name},
+				#{description},
+				#{use_yn},
+				#{reg_user}
+			)
+	
+	</insert>
 
 
 	<select id="selectBoard" resultMap="board">
 		
-		SELECT 
-			ID, NAME, DESCRIPTION, USE_YN, REG_USER
-		FROM board_db
-		WHERE ID=#{id}
+		select id, name, description, use_yn, reg_user
+		from board_db
+		where id=#{id}
 		
 	</select>
 	
 	<select id="selectBoardList" parameterType="searchVO" resultType="egovMap">
-
+			
+			
 			SELECT
 				ID, NAME, DESCRIPTION, USE_YN, REG_USER
 			FROM board_db
@@ -38,6 +56,11 @@
 			</if>
 			ORDER BY ID ASC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+			
+			<!-- 
+			SELECT id, name, description, use_yn, reg_user
+			FROM board_db
+			-->
 			
 	</select>
 	

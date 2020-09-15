@@ -9,6 +9,14 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 public interface BoardService {
 	
 	/**
+	 * 글 등록
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	String insertBoard(BoardVO vo) throws Exception;
+	
+	/**
 	 * 글 조회
 	 * @param vo
 	 * @return
