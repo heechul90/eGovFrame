@@ -9,36 +9,40 @@
 <head>	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><spring:message code="title.sample" /></title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     <script type="text/javaScript" language="javascript" defer="defer">
-        <!--
+	   
+    	
+    	
         /* 글 수정 화면 function */
         function fn_egov_select(id) {
         	document.listForm.selectedId.value = id;
-           	document.listForm.action = "<c:url value='/updateSampleView.do'/>";
+           	document.listForm.action = "<c:url value='/updateBoardView.do'/>";
            	document.listForm.submit();
         }
         
         /* 글 등록 화면 function */
         function fn_egov_addView() {
-           	document.listForm.action = "<c:url value='/addSample.do'/>";
+           	document.listForm.action = "<c:url value='/addBoard.do'/>";
            	document.listForm.submit();
         }
         
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-        	document.listForm.action = "<c:url value='/egovSampleList.do'/>";
+        	document.listForm.action = "<c:url value='/boardList.do'/>";
            	document.listForm.submit();
         }
         
         /* pagination 페이지 링크 function */
         function fn_egov_link_page(pageNo){
         	document.listForm.pageIndex.value = pageNo;
-        	document.listForm.action = "<c:url value='/egovSampleList.do'/>";
+        	document.listForm.action = "<c:url value='/boardList.do'/>";
            	document.listForm.submit();
         }
         
-        //-->
+        
     </script>
 </head>
 
@@ -119,6 +123,11 @@
         			</c:forEach>
 				</table>
 			</div>
+			<!-- pagination -->
+			<div id="paging">
+				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_egov_link_page" />
+				<form:hidden path="pageIndex" />
+			</div>
 			<div id="sysbtn">
         	  <ul>
         	      <li>
@@ -131,5 +140,11 @@
         	</div>
 		</div>
 	</form:form>
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ public class BoardVO extends BoardDefaultVO {
 	private String useYn;
 	private String regUser;
 	
+	
 	public String getId() {
 		return id;
 	}
@@ -40,5 +41,10 @@ public class BoardVO extends BoardDefaultVO {
 	public void setRegUser(String regUser) {
 		this.regUser = regUser;
 	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 	
 }

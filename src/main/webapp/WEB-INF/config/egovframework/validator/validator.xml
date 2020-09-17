@@ -4,9 +4,21 @@
     "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
 
 <form-validation>
-
     <formset>
         <form name="sampleVO">
+        	<field property="name" depends="required">
+        		<arg0 key="title.sample.name" />
+			</field>
+			<field property="description" depends="required">
+                <arg0 key="title.sample.description" />
+            </field>
+        	<field property="regUser" depends="required">
+        		<arg0 key="title.sample.regUser" />
+			</field>
+        </form>
+    </formset>
+    <formset>
+        <form name="boardVO">
         	<field property="name" depends="required">
         		<arg0 key="title.sample.name" />
 			</field>

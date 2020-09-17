@@ -18,6 +18,7 @@
             <bean class="egovframework.example.cmmn.web.EgovBindingInitializer"/>
         </property>
     </bean>
+    
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <list>
@@ -62,5 +63,6 @@
     </bean>
 	<!-- /For Pagination Tag -->
 
-    <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
+    <!-- <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/> -->
+    <mvc:view-controller path="/example/cmmn/validator.do" view-name="example/cmmn/validator"/>
 </beans>

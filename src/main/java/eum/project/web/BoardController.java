@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -65,8 +66,26 @@ public class BoardController {
 	@RequestMapping(value="/boardList.do")
 	public String selectBoardList(@ModelAttribute("searchVO") BoardDefaultVO searchVO, ModelMap model) throws Exception {
 		
+		/** EgovPropertyService.sample */
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
 		List<?> boardList = boardService.selectBoardList(searchVO);
 		model.addAttribute("resultList", boardList);
+		
+		int totCnt = boardService.selectBoardListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
 		
 		
 		return "eum/boardList";
@@ -74,11 +93,7 @@ public class BoardController {
 
 	
 	/**
-	 * 글 등록
-	 * @param searchVO
-	 * @param model
-	 * @return
-	 * @throws Exception
+	 * 글 등록 조회 화면
 	 */
 	@RequestMapping(value = "/addBoard.do", method = RequestMethod.GET)
 	public String addBoardView(@ModelAttribute("searchVO") BoardDefaultVO searchVO, Model model) throws Exception {
@@ -89,32 +104,45 @@ public class BoardController {
 	
 	/**
 	 * 글 등록
-	 * @param searchVO
-	 * @param boardVO
-	 * @param bindingResult
-	 * @param model
-	 * @param status
-	 * @return
-	 * @throws Exception
 	 */
 	@RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
 	public String addBoard(@ModelAttribute("searchVO") BoardDefaultVO searchVO, BoardVO boardVO, BindingResult bindingResult, Model model, SessionStatus status) 
 			throws Exception {
 		
 		// server-side Validation
-//		beanValidator.validate(boardVO, bindingResult);
-//		
-//		if (bindingResult.hasErrors()) {
-//			model.addAttribute("boardVO", boardVO);
-//			return "eum/boardRegister";
-//		}
-//		
-//		boardService.insertBoard(boardVO);
-//		status.setComplete();
+		beanValidator.validate(boardVO, bindingResult);
 		
-		return "forward:/home.do";
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("boardVO", boardVO);
+			return "eum/boardRegister";
+		}
+		
+		boardService.insertBoard(boardVO);
+		status.setComplete();
+		
+		return "forward:/boardList.do";
 	}
 	
+	
+	
+	/**
+	 * 수정 조회
+	 * @param id
+	 * @param searchVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "updateBoardView.do")
+	public String updateBoardView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		BoardVO boardVO = new BoardVO();
+		boardVO.setId(id);
+		// 변수명은 CoC 에 따라 sampleVO
+		model.addAttribute(selectBoard(boardVO, boardVO));
+		
+		
+		return "eum/boardRegister";
+	}
 	
 	
 	/**
@@ -127,6 +155,37 @@ public class BoardController {
 	public BoardVO selectBoard(BoardVO boardVO, @ModelAttribute("boardVO") BoardDefaultVO searchVO) throws Exception {
 		return boardService.selectBoard(boardVO);
 	}
+	
+	
+	/**
+	 * 글을 수정한다.
+	 */
+	@RequestMapping("/updateBoard.do")
+	public String updateBoard(@ModelAttribute("searchVO") BoardDefaultVO searchVO, BoardVO boardVO, BindingResult bindingResult, Model model, SessionStatus status)
+			throws Exception {
+
+		beanValidator.validate(boardVO, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("boardVO", boardVO);
+			return "eum/boardRegister";
+		}
+
+		boardService.updateBoard(boardVO);
+		status.setComplete();
+		return "forward:/boardList.do";
+	}
+	
+	/**
+	 * 글을 삭제한다.
+	 */
+	@RequestMapping("/deleteBoard.do")
+	public String deleteBoard(BoardVO boardVO, @ModelAttribute("searchVO") BoardDefaultVO searchVO, SessionStatus status) throws Exception {
+		boardService.deleteBoard(boardVO);
+		status.setComplete();
+		return "forward:/boardList.do";
+	}
+	
 	
 	
 }

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eum.project.service.impl.BoardMapper">
 
+
 	<resultMap id="board" type="eum.project.service.BoardVO">
 		<result property="id" column="id"/>
 		<result property="name" column="name"/>
@@ -9,6 +10,16 @@
 		<result property="useYn" column="use_yn"/>
 		<result property="regUser" column="reg_user"/>
 	</resultMap>
+	
+	
+	<select id="selectBoard" resultMap="board">
+		
+		select id, name, description, use_yn, reg_user
+		from board_db
+		where id=#{id}
+		
+	</select>
+	
 	
 	<insert id="insertBoard" parameterType="BoardVO">
 	
@@ -22,20 +33,13 @@
 			value ( #{id},
 				#{name},
 				#{description},
-				#{use_yn},
-				#{reg_user}
+				#{useYn},
+				#{regUser}
 			)
 	
 	</insert>
 
 
-	<select id="selectBoard" resultMap="board">
-		
-		select id, name, description, use_yn, reg_user
-		from board_db
-		where id=#{id}
-		
-	</select>
 	
 	<select id="selectBoardList" parameterType="searchVO" resultType="egovMap">
 			
@@ -80,6 +84,24 @@
 				</choose>
 			</if>
 	</select>
+	
+	<update id="updateBoard">
+
+			UPDATE SAMPLE
+			SET ID=#{id}
+				, NAME=#{name}
+				, DESCRIPTION=#{description}
+				, USE_YN=#{useYn}
+				  WHERE ID=#{id}
+
+	</update>
+	
+	<delete id="deleteBoard">
+
+			DELETE FROM SAMPLE
+			WHERE ID=#{id}
+
+	</delete>
 	
 	<select id="selectTestList" resultType="egovMap">
 

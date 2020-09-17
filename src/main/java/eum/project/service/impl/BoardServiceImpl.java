@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.example.sample.service.SampleVO;
 import egovframework.example.sample.service.impl.EgovSampleServiceImpl;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -20,9 +21,6 @@ import eum.project.service.BoardVO;
 public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovSampleServiceImpl.class);
-	
-	@Resource(name="boardDAO")
-	private BoardDAO boardDAO;
 	
 	/** ID Generation */
 	@Resource(name = "egovIdGnrService")
@@ -42,7 +40,7 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 		vo.setId(id);
 		LOGGER.debug(vo.toString());
 		
-		boardDAO.insertBoard(vo);
+		boardMapper.insertBoard(vo);
 		return id;
 	}
 	
@@ -52,7 +50,7 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	 */
 	@Override
 	public BoardVO selectBoard(BoardVO vo) throws Exception {
-		BoardVO resultVO = boardDAO.selectBoard(vo);
+		BoardVO resultVO = boardMapper.selectBoard(vo);
 		if (resultVO == null)
 			throw processException("info.nodata.msg");
 		return resultVO;
@@ -72,6 +70,26 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	@Override
 	public int selectBoardListTotCnt(BoardDefaultVO searchVO) {
 		return boardMapper.selectBoardListTotCnt(searchVO);
+	}
+	
+	/**
+	 * 글을 수정한다.
+	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @return void형
+	 * @exception Exception
+	 */
+	@Override
+	public void updateBoard(BoardVO vo) throws Exception {
+		boardMapper.updateBoard(vo);
+	}
+	
+	
+	/**
+	 * 글을 삭제한다.
+	 */
+	@Override
+	public void deleteBoard(BoardVO vo) throws Exception {
+		boardMapper.deleteBoard(vo);
 	}
 	
 	/**

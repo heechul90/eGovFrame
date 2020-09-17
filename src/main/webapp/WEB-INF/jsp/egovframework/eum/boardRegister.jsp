@@ -7,42 +7,42 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <c:set var="registerFlag" value="${empty sampleVO.id ? 'create' : 'modify'}"/>
+    <c:set var="registerFlag" value="${empty boardVO.id ? 'create' : 'modify'}"/>
     <title>Sample <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
                   <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
     </title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     
     <!--For Commons Validator Client Side-->
-    <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-    <validator:javascript formName="sampleVO" staticJavascript="false" xhtml="true" cdata="false"/>
+    <script type="text/javascript" src="<c:url value='/example/cmmn/validator.do'/>"></script>
+    <validator:javascript formName="boardVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
     <script type="text/javaScript" language="javascript" defer="defer">
-        <!--
+        
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
+           	document.detailForm.action = "<c:url value='/boardList.do'/>";
            	document.detailForm.submit();
         }
         
         /* 글 삭제 function */
         function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
+           	document.detailForm.action = "<c:url value='/deleteBoard.do'/>";
            	document.detailForm.submit();
         }
         
         /* 글 등록 function */
         function fn_egov_save() {
         	frm = document.detailForm;
-        	if(!validateSampleVO(frm)){
+        	if(!validateBoardVO(frm)){
                 return;
             }else{
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
+            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addBoard.do' : '/updateBoard.do'}"/>";
                 frm.submit();
             }
         }
         
-        -->
+       
     </script>
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
@@ -90,7 +90,7 @@
 				</tr>
 				<tr>
 					<td class="tbtd_caption"><label for="description"><spring:message code="title.sample.description" /></label></td>
-					<td class="tbtd_conten">
+					<td class="tbtd_content">
 						<form:textarea path="description" rows="5" cols="58" />
 						&nbsp;<form:errors path="description" />
 					</td>
@@ -98,7 +98,7 @@
 				<tr>
 					<td class="tbtd_caption"><label for="regUser"><spring:message code="title.sample.regUser" /></label></td>
 					<td class="tbtd_content">
-						<c:if test="${registerFlag != 'modify'}">
+						<c:if test="${registerFlag eq 'modify'}">
 							<form:input path="regUser" maxlength="10" cssClass="essentiality" readonly="true" />
 							&nbsp;<form:errors path="regUser" />
 						</c:if>
@@ -121,8 +121,8 @@
 					<li>
 						<span class="btn_blue_l">
 							<a href="javascript:fn_egov_save();">
-								<c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-								<c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
+								<c:if test="${registerFlag eq 'create'}"><spring:message code="button.create" /></c:if>
+								<c:if test="${registerFlag eq 'modify'}"><spring:message code="button.modify" /></c:if>
 							</a>
 							<img src="<c:url value='/images/egovframework/wxample/btn_bg_r.gif' />" style="margin-left:6px;" alt="" />
 						</span>
